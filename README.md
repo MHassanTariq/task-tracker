@@ -1,7 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-this change is a tesasdft.
+This is a Task Tracker Readme
 
 ## Available Scripts
 
@@ -45,3 +44,8 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+# Sheet to manage Enhancement and Bugs
+
+You can edit this sheet to update the features and bugs:
+[Sheet link](https://docs.google.com/spreadsheets/d/1rJrrztv2M4fMBSBstMTTKJ4PDU5LiPeWE9C282oRF64/edit?pli=1&gid=0#gid=0).
