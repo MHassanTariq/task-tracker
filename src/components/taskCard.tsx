@@ -74,7 +74,6 @@ export default function TaskCard({
   }
 
   function onClickSave(data: { text: string }) {
-    console.log("data: " + data);
     editTask(id, data.text);
     setIsEditing(false);
   }
