@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Task,
   createNewTask,
@@ -24,6 +24,8 @@ export function useHome() {
   const [highlightedDates, setHighlightedDates] = useState<Date[]>(
     getTaskedDatesInMonth()
   );
+  const dragTask = useRef<number>(0);
+  const draggedOverTask = useRef<number>(0);
 
   const headerButtons: HeaderButtonProps = [
     {
@@ -87,12 +89,31 @@ export function useHome() {
     }
   }
 
+  function handleSort() {
+    const tasksClone = [...taskList];
+    const temp = tasksClone[dragTask.current];
+    tasksClone[dragTask.current] = tasksClone[draggedOverTask.current];
+    tasksClone[draggedOverTask.current] = temp;
+    setTaskList(tasksClone);
+  }
+
+  function onDragStart(index: number, task: Task) {
+    dragTask.current = index;
+    const list = task.isCompleted
+      ? completedList.filter((ct) => ct.id !== task.id)
+      : taskList.filter((t) => t.id !== task.id);
+    task.isCompleted ? setCompletedList(list) : setTaskList(list);
+  }
+
   return {
     taskList,
     completedList,
     dateToday,
     headerButtons,
     highlightedDates,
+    dragTask,
+    draggedOverTask,
+    handleSort,
     onDelete,
     onAdd,
     onToggle,

@@ -18,6 +18,9 @@ function Home() {
     dateToday,
     headerButtons,
     highlightedDates,
+    dragTask,
+    draggedOverTask,
+    handleSort,
     onAdd,
     onDelete,
     onToggle,
@@ -29,13 +32,21 @@ function Home() {
     return (
       <div className="flex flex-col gap-5">
         {taskList.map((task, index) => (
-          <TaskCard
-            task={task}
-            onDelete={onDelete}
-            onToggle={onToggle}
-            key={index}
-            editTask={onUpdate}
-          />
+          <div
+            draggable
+            onDragStart={() => (dragTask.current = index)}
+            onDragEnter={() => (draggedOverTask.current = index)}
+            onDragEnd={handleSort}
+            onDragOver={(e) => e.preventDefault()}
+          >
+            <TaskCard
+              task={task}
+              onDelete={onDelete}
+              onToggle={onToggle}
+              key={index}
+              editTask={onUpdate}
+            />
+          </div>
         ))}
       </div>
     );
