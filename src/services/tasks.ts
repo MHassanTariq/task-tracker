@@ -37,10 +37,8 @@ function isValidKey(key: string): boolean {
 }
 export function getTaskedDatesInMonth(): Date[] {
   const highlightedTasks: Date[] = [];
-  //   console.log(localStorage.length);
   for (let i = 0; i < localStorage.length; i++) {
     const keyDate = localStorage.key(i);
-    // console.log(keyDate);
     if (keyDate && isValidKey(keyDate)) {
       const tasks = getObjectFromString<StoredTasks>(
         localStorage.getItem(keyDate)
@@ -49,11 +47,9 @@ export function getTaskedDatesInMonth(): Date[] {
         (tasks?.taskList.length ?? -1 > 0) ||
         (tasks?.completedList.length ?? -1 > 0)
       ) {
-        console.log(localStorage.getItem(keyDate));
         highlightedTasks.push(convertDateAndDayToDateObject(keyDate));
       }
     }
   }
-  console.log(highlightedTasks);
   return highlightedTasks;
 }
