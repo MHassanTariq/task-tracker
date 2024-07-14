@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import update from "immutability-helper";
 import {
+  DraggableItems,
   Task,
   createNewTask,
   formatTasksToReport,
@@ -11,6 +13,7 @@ import {
   saveDatedTasks,
 } from "../../services/tasks";
 import { HeaderButtonProps } from "../../components/header";
+import { useDrop } from "react-dnd";
 
 export function useHome() {
   // variables
@@ -24,6 +27,7 @@ export function useHome() {
   const [highlightedDates, setHighlightedDates] = useState<Date[]>(
     getTaskedDatesInMonth()
   );
+  const [, droppableList] = useDrop(() => ({ accept: DraggableItems.TASKS }));
 
   const headerButtons: HeaderButtonProps = [
     {
@@ -87,12 +91,41 @@ export function useHome() {
     }
   }
 
+  const findTask = useCallback(
+    (id: string) => {
+      const card = taskList.filter((task) => task.id === id)[0];
+      return {
+        card,
+        index: taskList.indexOf(card),
+      };
+    },
+    [taskList]
+  );
+
+  const moveTaskInList = useCallback(
+    (id: string, atIndex: number) => {
+      const { index, card } = findTask(id);
+      setTaskList(
+        update(taskList, {
+          $splice: [
+            [index, 1],
+            [atIndex, 0, card],
+          ],
+        })
+      );
+    },
+    [findTask, taskList, setTaskList]
+  );
+
   return {
     taskList,
     completedList,
     dateToday,
     headerButtons,
     highlightedDates,
+    findTask,
+    moveTaskInList,
+    droppableList,
     onDelete,
     onAdd,
     onToggle,

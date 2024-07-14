@@ -18,6 +18,9 @@ function Home() {
     dateToday,
     headerButtons,
     highlightedDates,
+    findTask,
+    moveTaskInList,
+    droppableList,
     onAdd,
     onDelete,
     onToggle,
@@ -27,14 +30,16 @@ function Home() {
 
   function TaskList({ taskList }: { taskList: Task[] }) {
     return (
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5" ref={droppableList}>
         {taskList.map((task, index) => (
           <TaskCard
+            key={index}
             task={task}
             onDelete={onDelete}
             onToggle={onToggle}
-            key={index}
             editTask={onUpdate}
+            moveCard={moveTaskInList}
+            findCard={findTask}
           />
         ))}
       </div>

@@ -1,5 +1,4 @@
 import { v4 as uuid } from "uuid";
-import { getObjectFromString } from "./parserHelpers";
 import { formatDateAndDay } from "./dateTimeHelper";
 
 export type Task = {
@@ -12,6 +11,10 @@ export type StoredTasks = {
   taskList: Task[];
   completedList: Task[];
 };
+
+export enum DraggableItems {
+  TASKS = "TASKS",
+}
 
 export type TaskTypes = "taskList" | "completedList";
 
@@ -49,4 +52,40 @@ export function formatTasksToReport(
   return `${formatDateAndDay(
     date
   )}:${completedTaskString}${remainingTaskString}`;
+}
+
+/**
+ * Moves an element from one index to another within an array.
+ *
+ * @template T - The type of elements in the array.
+ * @param array - The array to move the element within.
+ * @param fromIndex - The index of the element to move.
+ * @param toIndex - The index to move the element to.
+ * @returns A new array with the element moved.
+ */
+export function moveElement<T>(
+  array: T[],
+  fromIndex: number,
+  toIndex: number
+): T[] {
+  // Check if the provided indexes are within the bounds of the array
+  if (
+    fromIndex < 0 ||
+    fromIndex >= array.length ||
+    toIndex < 0 ||
+    toIndex >= array.length
+  ) {
+    return array;
+  }
+
+  // Create a copy of the array to avoid mutating the original array
+  const newArray = [...array];
+
+  // Remove the element from the fromIndex
+  const [element] = newArray.splice(fromIndex, 1);
+
+  // Insert the element at the toIndex
+  newArray.splice(toIndex, 0, element);
+
+  return newArray;
 }

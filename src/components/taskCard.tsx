@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Checkbox from "@mui/material/Checkbox";
 import DoneIcon from "@mui/icons-material/Done";
 import IconButton from "@mui/material/IconButton";
-import { Task } from "../helpers/taskHelpers";
+import { DraggableItems, Task } from "../helpers/taskHelpers";
 import colors from "../utils/colors";
 import styles from "../utils/styles";
 import MoreButton from "./moreButton";
+import { useDrag, useDrop } from "react-dnd";
 
 interface Props {
   task: Task;
   onDelete: (id: string) => void;
   onToggle: (id: string) => void;
   editTask: (id: string, newText: string) => void;
+  moveCard: (id: string, to: number) => void;
+  findCard: (id: string) => { index: number };
 }
 
 export default function TaskCard({
@@ -20,8 +23,43 @@ export default function TaskCard({
   onDelete,
   onToggle,
   editTask,
+  moveCard,
+  findCard,
 }: Props) {
   const { id, isCompleted, text } = task;
+  const originalIndex = findCard(id).index;
+
+  const [{ isDragging }, drag, preview] = useDrag(
+    () => ({
+      type: DraggableItems.TASKS,
+      item: { id, originalIndex },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+      end: (item, monitor) => {
+        const { id: droppedId, originalIndex } = item;
+        const didDrop = monitor.didDrop();
+        if (!didDrop) {
+          moveCard(droppedId, originalIndex);
+        }
+      },
+    }),
+    [id, originalIndex, moveCard]
+  );
+
+  const [, drop] = useDrop(
+    () => ({
+      accept: DraggableItems.TASKS,
+      hover({ id: draggedId }: { id: string }) {
+        if (draggedId !== id) {
+          const overIndex = findCard(id).index;
+          moveCard(draggedId, overIndex);
+        }
+      },
+    }),
+    [findCard, moveCard]
+  );
+
   const [isHoveringCard, setIsHoveringCard] = useState(false);
   const [isHoveringMore, setIsHoveringMore] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -159,6 +197,8 @@ export default function TaskCard({
 
   return (
     <div
+      ref={(node) => drag(drop(preview(node)))}
+      style={{ opacity: isDragging ? 0 : 1 }}
       className={`flex ${colors.taskCardBg} rounded-md p-5 ${styles.verticalCenter}`}
       onMouseEnter={onMouseEnterCard}
       onMouseLeave={onMouseLeaveCard}
