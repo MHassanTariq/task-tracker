@@ -77,7 +77,7 @@ function Home() {
       <Doodles className="" />
       <div className={`flex-1 relative ${colors.bodyBg} w-full h-full`}>
         <div className={`${styles.flexRow} h-full relative z-10 w-full`}>
-          <SideBar dates={[]} onClickDate={() => {}} />
+          <SideBar />
           <Body />
         </div>
       </div>
