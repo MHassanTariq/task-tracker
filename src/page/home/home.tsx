@@ -1,15 +1,16 @@
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { Doodles } from "../../assets/svgs/doodles";
+import CalendarButton from "../../components/calendarButton";
 import Header from "../../components/header";
+import Seperator from "../../components/seperator";
 import SideBar from "../../components/sideBar";
 import TaskCard from "../../components/taskCard";
 import TaskCreationForm from "../../components/taskCreationForm";
-import colors from "../../utils/colors";
+import { formatDateAndDay } from "../../helpers/dateTimeHelper";
 import { Task } from "../../helpers/taskHelpers";
+import colors from "../../utils/colors";
 import styles from "../../utils/styles";
 import { useHome } from "./useHome";
-import Seperator from "../../components/seperator";
-import { Doodles } from "../../assets/svgs/doodles";
-import CalendarButton from "../../components/calendarButton";
-import { formatDateAndDay } from "../../helpers/dateTimeHelper";
 
 function Home() {
   const {
@@ -23,21 +24,51 @@ function Home() {
     onToggle,
     onUpdate,
     setDate,
+    onDragEnd,
   } = useHome();
 
-  function TaskList({ taskList }: { taskList: Task[] }) {
+  function TaskList({
+    taskList,
+    listId,
+  }: {
+    taskList: Task[];
+    listId: string;
+  }) {
     return (
-      <div className="flex flex-col gap-5">
-        {taskList.map((task, index) => (
-          <TaskCard
-            task={task}
-            onDelete={onDelete}
-            onToggle={onToggle}
-            key={index}
-            editTask={onUpdate}
-          />
-        ))}
-      </div>
+      <Droppable droppableId={listId}>
+        {(provided) => (
+          <div
+            className="flex flex-col gap-5"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {taskList.map((task, index) => (
+              <Draggable
+                key={task.id.toString()}
+                draggableId={task.id.toString()}
+                index={index}
+              >
+                {(provided) => (
+                  <div
+                    className="bg-gray-300"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <TaskCard
+                      task={task}
+                      onDelete={onDelete}
+                      onToggle={onToggle}
+                      editTask={onUpdate}
+                    />
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     );
   }
 
@@ -58,12 +89,12 @@ function Home() {
           </div>
           <div className="flex flex-1 flex-col pt-5 lg:px-14 gap-5">
             <TaskCreationForm onSubmitTask={onAdd} />
-            <TaskList taskList={taskList} />
+            <TaskList taskList={taskList} listId={"todoList"} />
             <Seperator
               title={"Completed"}
               shouldRender={completedList.length > 0}
             />
-            <TaskList taskList={completedList} />
+            <TaskList taskList={completedList} listId={"completedList"} />
           </div>
         </div>
       </div>
@@ -71,17 +102,19 @@ function Home() {
   }
 
   return (
-    <div
-      className={`flex relative flex-1 h-screen w-full ${colors.bg} overflow-hidden`}
-    >
-      <Doodles className="" />
-      <div className={`flex-1 relative ${colors.bodyBg} w-full h-full`}>
-        <div className={`${styles.flexRow} h-full relative z-10 w-full`}>
-          <SideBar />
-          <Body />
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div
+        className={`flex relative flex-1 h-screen w-full ${colors.bg} overflow-hidden`}
+      >
+        <Doodles className="" />
+        <div className={`flex-1 relative ${colors.bodyBg} w-full h-full`}>
+          <div className={`${styles.flexRow} h-full relative z-10 w-full`}>
+            <SideBar />
+            <Body />
+          </div>
         </div>
       </div>
-    </div>
+    </DragDropContext>
   );
 }
 
