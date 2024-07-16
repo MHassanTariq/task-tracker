@@ -1,5 +1,4 @@
 import { v4 as uuid } from "uuid";
-import { getObjectFromString } from "./parserHelpers";
 import { formatDateAndDay } from "./dateTimeHelper";
 
 export type Task = {

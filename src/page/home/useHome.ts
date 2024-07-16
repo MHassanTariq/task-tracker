@@ -37,6 +37,7 @@ export function useHome() {
   useEffect(() => {
     saveDatedTasks(dateToday, { taskList, completedList });
     setHighlightedDates(getTaskedDatesInMonth());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskList, completedList]);
 
   useEffect(() => {
