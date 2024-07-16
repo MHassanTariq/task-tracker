@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import Checkbox from "@mui/material/Checkbox";
 import DoneIcon from "@mui/icons-material/Done";
+import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Task } from "../helpers/taskHelpers";
 import colors from "../utils/colors";
 import styles from "../utils/styles";
