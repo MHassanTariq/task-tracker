@@ -1,0 +1,16 @@
+name: Restrict PR to master from develop
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  restrict-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check source branch
+        if: github.base_ref != 'develop'
+        run: |
+          echo "Pull requests to master must come from develop branch."
+          exit 1
