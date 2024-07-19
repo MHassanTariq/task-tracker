@@ -3,12 +3,14 @@ import { DropResult } from "react-beautiful-dnd";
 import { HeaderButtonProps } from "../../components/header";
 import {
   createNewTask,
-  formatTasksToReport, searchTask, Task
+  formatTasksToReport,
+  searchTask,
+  Task,
 } from "../../helpers/taskHelpers";
 import {
   getDatedTasks,
   getTaskedDatesInMonth,
-  saveDatedTasks
+  saveDatedTasks,
 } from "../../services/tasks";
 
 export function useHome() {
@@ -88,16 +90,18 @@ export function useHome() {
   }
 
   const onDragEnd = (result: DropResult) => {
-  const { destination, source, draggableId } = result;
+    const { destination, source } = result;
 
-  if(!destination) return;
-  const newTaskArray =   source.droppableId === 'todoList' ? [...taskList] : [...completedList];
-  const [draggedItem] = newTaskArray.splice(source.index,1);
-  newTaskArray.splice(destination.index, 0, draggedItem);
-  source.droppableId === 'todoList' ? setTaskList(newTaskArray): setCompletedList(newTaskArray)
-};
-   
-  
+    if (!destination) return;
+    const newTaskArray =
+      source.droppableId === "todoList" ? [...taskList] : [...completedList];
+    const [draggedItem] = newTaskArray.splice(source.index, 1);
+    newTaskArray.splice(destination.index, 0, draggedItem);
+    source.droppableId === "todoList"
+      ? setTaskList(newTaskArray)
+      : setCompletedList(newTaskArray);
+  };
+
   return {
     taskList,
     completedList,
@@ -109,6 +113,6 @@ export function useHome() {
     onToggle,
     onUpdate,
     setDate,
-    onDragEnd
+    onDragEnd,
   };
 }
