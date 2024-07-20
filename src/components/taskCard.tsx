@@ -22,8 +22,7 @@ export default function TaskCard({
   editTask,
 }: Props) {
   const { id, isCompleted, text } = task;
-  const [isHoveringCard, setIsHoveringCard] = useState(false);
-  const [isHoveringMore, setIsHoveringMore] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm({
@@ -38,31 +37,6 @@ export default function TaskCard({
 
   function onClickDelete() {
     onDelete(id);
-  }
-
-  function onMouseEnterCard() {
-    setIsHoveringCard(true);
-  }
-
-  function onMouseLeaveCard() {
-    setTimeout(() => {
-      if (!isHoveringMore) {
-        setIsHoveringCard(false);
-      }
-    }, 100);
-  }
-
-  function onMouseEnterMore() {
-    setIsHoveringMore(true);
-  }
-
-  function onMouseLeaveMore() {
-    setIsHoveringMore(false);
-    setTimeout(() => {
-      if (!isHoveringCard) {
-        setIsHoveringCard(false);
-      }
-    }, 100);
   }
 
   function onClickEdit() {
@@ -104,9 +78,13 @@ export default function TaskCard({
         </IconButton>
       );
 
-    if (isHoveringCard || isHoveringMore)
+    if (isHovering)
       return (
-        <div onMouseEnter={onMouseEnterMore} onMouseLeave={onMouseLeaveMore}>
+        <div
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+          onMouseDown={(e) => e.preventDefault()} // Prevent onBlur from being triggered
+        >
           <MoreButton
             options={[
               { text: "Delete", onClick: onClickDelete },
@@ -126,7 +104,6 @@ export default function TaskCard({
         <form
           onSubmit={handleSubmit(onClickSave)}
           className="flex flex-grow mx-2"
-          onBlur={onClickCancel}
         >
           <Controller
             name="text"
@@ -137,6 +114,7 @@ export default function TaskCard({
                 type="text"
                 autoFocus
                 className={`flex-grow bg-transparent text-base ${colors.text} border-b border-silver focus:outline-none`}
+                onBlur={onClickCancel}
               />
             )}
           />
@@ -160,10 +138,8 @@ export default function TaskCard({
   return (
     <div
       className={`flex ${colors.taskCardBg} rounded-md p-5 ${styles.verticalCenter}`}
-      onMouseEnter={onMouseEnterCard}
-      onMouseLeave={onMouseLeaveCard}
-      onFocus={onMouseEnterCard}
-      onBlur={onMouseLeaveCard}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
     >
       <LeftIcon />
       <MiddleElement />
