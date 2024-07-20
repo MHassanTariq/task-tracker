@@ -7,6 +7,8 @@ import { Task } from "../helpers/taskHelpers";
 import colors from "../utils/colors";
 import styles from "../utils/styles";
 import MoreButton from "./moreButton";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CheckIcon from "@mui/icons-material/Check";
 
 interface Props {
   task: Task;
@@ -25,6 +27,7 @@ export default function TaskCard({
   const [isHoveringCard, setIsHoveringCard] = useState(false);
   const [isHoveringMore, setIsHoveringMore] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isContentCopied, setIsContentCopied] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
@@ -78,6 +81,14 @@ export default function TaskCard({
     setIsEditing(false);
   }
 
+  function onCopyContent() {
+    navigator.clipboard.writeText(text);
+    setIsContentCopied(true);
+    setTimeout(() => {
+      setIsContentCopied(false);
+    }, 1000 * 5); // 5 seconds
+  }
+
   function LeftIcon() {
     if (isEditing) return null;
 
@@ -106,7 +117,22 @@ export default function TaskCard({
 
     if (isHoveringCard || isHoveringMore)
       return (
-        <div onMouseEnter={onMouseEnterMore} onMouseLeave={onMouseLeaveMore}>
+        <div
+          className="flex flex-row gap-2 items-center"
+          onMouseEnter={onMouseEnterMore}
+          onMouseLeave={onMouseLeaveMore}
+        >
+          <IconButton
+            onClick={onCopyContent}
+            size="small"
+            style={{ padding: 0, margin: 0 }}
+          >
+            {isContentCopied ? (
+              <CheckIcon style={{ color: "gainsboro", fontSize: 20 }} />
+            ) : (
+              <ContentCopyIcon style={{ color: "gainsboro", fontSize: 20 }} />
+            )}
+          </IconButton>
           <MoreButton
             options={[
               { text: "Delete", onClick: onClickDelete },
