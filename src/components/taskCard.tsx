@@ -43,11 +43,18 @@ export default function TaskCard({
     setIsEditing(true);
   }
 
-  function onClickCancel() {
-    setIsEditing(false);
+  function onMouseHover() {
+    if (isEditing) return;
+    setIsHovering(true);
+  }
+
+  function onMouseUnhover() {
+    if (isEditing) return;
+    setIsHovering(false);
   }
 
   function onClickSave(data: { text: string }) {
+    console.log("data: ", data);
     editTask(id, data.text);
     setIsEditing(false);
   }
@@ -71,7 +78,6 @@ export default function TaskCard({
         <IconButton
           aria-label="done"
           onClick={handleSubmit(onClickSave)}
-          onMouseDown={(e) => e.preventDefault()} // Prevent onBlur from being triggered
           size="small"
         >
           <DoneIcon className="text-skyMagenta p-0 m-0" fontSize="small" />
@@ -80,18 +86,12 @@ export default function TaskCard({
 
     if (isHovering)
       return (
-        <div
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)}
-          onMouseDown={(e) => e.preventDefault()} // Prevent onBlur from being triggered
-        >
-          <MoreButton
-            options={[
-              { text: "Delete", onClick: onClickDelete },
-              { text: "Edit", onClick: onClickEdit },
-            ]}
-          />
-        </div>
+        <MoreButton
+          options={[
+            { text: "Delete", onClick: onClickDelete },
+            { text: "Edit", onClick: onClickEdit },
+          ]}
+        />
       );
 
     return null;
@@ -114,7 +114,6 @@ export default function TaskCard({
                 type="text"
                 autoFocus
                 className={`flex-grow bg-transparent text-base ${colors.text} border-b border-silver focus:outline-none`}
-                onBlur={onClickCancel}
               />
             )}
           />
@@ -138,8 +137,8 @@ export default function TaskCard({
   return (
     <div
       className={`flex ${colors.taskCardBg} rounded-md p-5 ${styles.verticalCenter}`}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseEnter={onMouseHover}
+      onMouseLeave={onMouseUnhover}
     >
       <LeftIcon />
       <MiddleElement />
