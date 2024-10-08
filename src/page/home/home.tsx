@@ -11,8 +11,10 @@ import { Task } from "../../helpers/taskHelpers";
 import colors from "../../utils/colors";
 import styles from "../../utils/styles";
 import { useHome } from "./useHome";
+import { useState } from "react";
 
 function Home() {
+
   const {
     taskList,
     completedList,
@@ -26,6 +28,9 @@ function Home() {
     setDate,
     onDragEnd,
   } = useHome();
+
+const [editingTaskId, setEditingTaskId] =  useState<string |  null>(null);
+
 
   function TaskList({
     taskList,
@@ -60,6 +65,8 @@ function Home() {
                       onDelete={onDelete}
                       onToggle={onToggle}
                       editTask={onUpdate}
+                      editingTaskId={editingTaskId}
+                      setEditingTaskId={setEditingTaskId}
                     />
                   </div>
                 )}
