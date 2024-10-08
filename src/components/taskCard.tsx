@@ -15,6 +15,8 @@ interface Props {
   onDelete: (id: string) => void;
   onToggle: (id: string) => void;
   editTask: (id: string, newText: string) => void;
+  editingTaskId: string  | null;
+  setEditingTaskId: (id: string  | null) => void;
 }
 
 export default function TaskCard({
@@ -22,10 +24,11 @@ export default function TaskCard({
   onDelete,
   onToggle,
   editTask,
+  editingTaskId,
+  setEditingTaskId,
 }: Props) {
   const { id, isCompleted, text } = task;
   const [isHovering, setIsHovering] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [isContentCopied, setIsContentCopied] = useState(false);
 
   const { control, handleSubmit, setValue } = useForm({
@@ -43,23 +46,23 @@ export default function TaskCard({
   }
 
   function onClickEdit() {
-    setIsEditing(true);
+    setEditingTaskId(id);
   }
 
   function onMouseHover() {
-    if (isEditing) return;
+    if (editingTaskId === id) return;
     setIsHovering(true);
   }
 
   function onMouseUnhover() {
-    if (isEditing) return;
+    if (editingTaskId === id) return;
     setIsHovering(false);
   }
 
   function onClickSave(data: { text: string }) {
     console.log("data: ", data);
     editTask(id, data.text);
-    setIsEditing(false);
+    setEditingTaskId(null);
   }
 
   function onCopyContent() {
@@ -71,7 +74,7 @@ export default function TaskCard({
   }
 
   function LeftIcon() {
-    if (isEditing) return null;
+    if (editingTaskId === id) return null;
 
     return (
       <Checkbox
@@ -84,7 +87,7 @@ export default function TaskCard({
   }
 
   function RightIcon() {
-    if (isEditing)
+    if (editingTaskId === id)
       return (
         <IconButton
           aria-label="done"
@@ -122,7 +125,7 @@ export default function TaskCard({
   }
 
   function MiddleElement() {
-    if (isEditing) {
+    if (editingTaskId === id) {
       setValue("text", text);
       return (
         <form
