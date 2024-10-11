@@ -12,11 +12,11 @@ import CheckIcon from "@mui/icons-material/Check";
 
 interface Props {
   task: Task;
-  editingTaskId: string  | null;
+  editingTaskId: string | null;
   onDelete: (id: string) => void;
   onToggle: (id: string) => void;
   editTask: (id: string, newText: string) => void;
-  setEditingTaskId: (id: string  | null) => void;
+  setEditingTaskId: (id: string | null) => void;
 }
 
 export default function TaskCard({
@@ -60,7 +60,6 @@ export default function TaskCard({
   }
 
   function onClickSave(data: { text: string }) {
-    
     editTask(id, data.text);
     setEditingTaskId(null);
   }
