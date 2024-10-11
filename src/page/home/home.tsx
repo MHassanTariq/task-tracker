@@ -10,10 +10,9 @@ import { formatDateAndDay } from "../../helpers/dateTimeHelper";
 import { Task } from "../../helpers/taskHelpers";
 import colors from "../../utils/colors";
 import styles from "../../utils/styles";
-import { useHome } from "./useHome"; 
+import { useHome } from "./useHome";
 
 function Home() {
-
   const {
     taskList,
     completedList,
@@ -48,7 +47,7 @@ function Home() {
             {taskList.map((task, index) => (
               <Draggable
                 key={task.id.toString()}
-                draggableId={task.id.toString()}  
+                draggableId={task.id.toString()}
                 index={index}
               >
                 {(provided) => (
