@@ -12,19 +12,19 @@ import CheckIcon from "@mui/icons-material/Check";
 
 interface Props {
   task: Task;
+  editingTaskId: string  | null;
   onDelete: (id: string) => void;
   onToggle: (id: string) => void;
   editTask: (id: string, newText: string) => void;
-  editingTaskId: string  | null;
   setEditingTaskId: (id: string  | null) => void;
 }
 
 export default function TaskCard({
   task,
+  editingTaskId,
   onDelete,
   onToggle,
   editTask,
-  editingTaskId,
   setEditingTaskId,
 }: Props) {
   const { id, isCompleted, text } = task;
@@ -60,7 +60,7 @@ export default function TaskCard({
   }
 
   function onClickSave(data: { text: string }) {
-    console.log("data: ", data);
+    
     editTask(id, data.text);
     setEditingTaskId(null);
   }
