@@ -26,6 +26,8 @@ export function useHome() {
     getTaskedDatesInMonth()
   );
 
+  const [editingTaskId, setEditingTaskId] =  useState<string | null>(null);
+
   const headerButtons: HeaderButtonProps = [
     {
       text: "Copy Status Report",
@@ -108,11 +110,13 @@ export function useHome() {
     dateToday,
     headerButtons,
     highlightedDates,
+    editingTaskId,
     onDelete,
     onAdd,
     onToggle,
     onUpdate,
     setDate,
     onDragEnd,
+    setEditingTaskId,
   };
 }

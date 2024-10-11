@@ -10,8 +10,7 @@ import { formatDateAndDay } from "../../helpers/dateTimeHelper";
 import { Task } from "../../helpers/taskHelpers";
 import colors from "../../utils/colors";
 import styles from "../../utils/styles";
-import { useHome } from "./useHome";
-import { useState } from "react";
+import { useHome } from "./useHome"; 
 
 function Home() {
 
@@ -21,16 +20,15 @@ function Home() {
     dateToday,
     headerButtons,
     highlightedDates,
+    editingTaskId,
     onAdd,
     onDelete,
     onToggle,
     onUpdate,
     setDate,
     onDragEnd,
+    setEditingTaskId,
   } = useHome();
-
-const [editingTaskId, setEditingTaskId] =  useState<string |  null>(null);
-
 
   function TaskList({
     taskList,
@@ -50,7 +48,7 @@ const [editingTaskId, setEditingTaskId] =  useState<string |  null>(null);
             {taskList.map((task, index) => (
               <Draggable
                 key={task.id.toString()}
-                draggableId={task.id.toString()}
+                draggableId={task.id.toString()}  
                 index={index}
               >
                 {(provided) => (
@@ -62,10 +60,10 @@ const [editingTaskId, setEditingTaskId] =  useState<string |  null>(null);
                   >
                     <TaskCard
                       task={task}
+                      editingTaskId={editingTaskId}
                       onDelete={onDelete}
                       onToggle={onToggle}
                       editTask={onUpdate}
-                      editingTaskId={editingTaskId}
                       setEditingTaskId={setEditingTaskId}
                     />
                   </div>
