@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 import { ButtonBase } from "@mui/material";
 import colors from "../utils/colors";
 
@@ -8,7 +8,7 @@ interface Props {
   type: "submit" | "button";
   variant: PrimaryButtonVariant;
   text: string;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 export function PrimaryButton({ text, variant, type, onClick }: Props) {
