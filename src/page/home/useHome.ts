@@ -31,8 +31,8 @@ export function useHome() {
 
   const headerButtons: HeaderButtonProps = [
     {
-      variant: "dropdown",
-      title: "Feedback",
+      variant: "no-border-bg",
+      text: "Feedback",
       options: [
         {
           text: "Report Issue",
