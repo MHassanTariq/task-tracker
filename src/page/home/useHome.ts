@@ -42,6 +42,10 @@ export function useHome() {
           text: "Request Feature",
           onClick: () => window.open(strings.urls.FEATURE_FORM, "_blank"),
         },
+        {
+          text: "Share a Review",
+          onClick: () => window.open(strings.urls.THOUGHT_FORM, "_blank"),
+        },
       ],
     },
     {
