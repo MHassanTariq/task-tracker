@@ -12,6 +12,7 @@ import {
   getTaskedDatesInMonth,
   saveDatedTasks,
 } from "../../services/tasks";
+import { strings } from "../../utils/constants";
 
 export function useHome() {
   // variables
@@ -29,6 +30,24 @@ export function useHome() {
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
 
   const headerButtons: HeaderButtonProps = [
+    {
+      variant: "no-border-bg",
+      text: "Feedback",
+      options: [
+        {
+          text: "Report Issue",
+          onClick: () => window.open(strings.urls.ISSUE_FORM, "_blank"),
+        },
+        {
+          text: "Request Feature",
+          onClick: () => window.open(strings.urls.FEATURE_FORM, "_blank"),
+        },
+        {
+          text: "Share a Review",
+          onClick: () => window.open(strings.urls.THOUGHT_FORM, "_blank"),
+        },
+      ],
+    },
     {
       text: "Copy Status Report",
       onClick: onCopyReport,

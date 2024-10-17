@@ -1,16 +1,10 @@
 import React, { useState, MouseEvent } from "react";
 import IconButton from "@mui/material/IconButton";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-
-interface Option {
-  text: string;
-  onClick: () => void;
-}
+import OptionsPopup, { PopupOption } from "./optionsPopup";
 
 interface MoreButtonProps {
-  options: Option[];
+  options: PopupOption[];
 }
 
 const MoreButton: React.FC<MoreButtonProps> = ({ options }) => {
@@ -33,19 +27,11 @@ const MoreButton: React.FC<MoreButtonProps> = ({ options }) => {
       >
         <MoreHorizIcon style={{ color: "gainsboro", fontSize: 20 }} />
       </IconButton>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-        {options.map((option, index) => (
-          <MenuItem
-            key={index}
-            onClick={() => {
-              option.onClick();
-              handleClose();
-            }}
-          >
-            {option.text}
-          </MenuItem>
-        ))}
-      </Menu>
+      <OptionsPopup
+        options={options}
+        anchorEl={anchorEl}
+        handleClose={handleClose}
+      />
     </div>
   );
 };

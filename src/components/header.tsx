@@ -1,10 +1,12 @@
 import styles from "../utils/styles";
+import { PopupOption } from "./optionsPopup";
 import { PrimaryButton, PrimaryButtonVariant } from "./primaryButton";
 
 export type HeaderButtonProps = {
   text: string;
-  onClick: () => void;
   variant: PrimaryButtonVariant;
+  onClick?: () => void;
+  options?: PopupOption[];
 }[];
 
 interface Props {
@@ -19,10 +21,11 @@ function Header({ buttons }: Props) {
       {buttons.map((button, index) => (
         <PrimaryButton
           type="button"
-          onClick={button.onClick}
+          onClick={button.onClick ?? undefined}
           variant={button.variant}
           text={button.text}
           key={index}
+          options={button.options}
         />
       ))}
     </header>
