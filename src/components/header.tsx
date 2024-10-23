@@ -1,6 +1,7 @@
 import styles from "../utils/styles";
 import { PopupOption } from "./optionsPopup";
 import { PrimaryButton, PrimaryButtonVariant } from "./primaryButton";
+import Modal from "./modal";
 
 export type HeaderButtonProps = {
   text: string;
