@@ -13,6 +13,7 @@ import {
   saveDatedTasks,
 } from "../../services/tasks";
 import { strings } from "../../utils/constants";
+import modal from "../../components/modal";
 
 export function useHome() {
   // variables
@@ -54,6 +55,11 @@ export function useHome() {
       variant: "border-only",
     },
   ];
+
+  const  [showModal, setShowModal] = useState(false);
+
+  const openModal = ()  => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   // hooks
   useEffect(() => {
@@ -130,6 +136,8 @@ export function useHome() {
     headerButtons,
     highlightedDates,
     editingTaskId,
+    showModal,
+    openModal,
     onDelete,
     onAdd,
     onToggle,
@@ -137,5 +145,7 @@ export function useHome() {
     setDate,
     onDragEnd,
     setEditingTaskId,
+    setShowModal,
+    closeModal,
   };
 }

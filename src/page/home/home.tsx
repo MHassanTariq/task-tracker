@@ -11,7 +11,8 @@ import { Task } from "../../helpers/taskHelpers";
 import colors from "../../utils/colors";
 import styles from "../../utils/styles";
 import { useHome } from "./useHome";
-
+import Modal from "../../components/modal";
+import { useState } from "react";
 function Home() {
   const {
     taskList,
@@ -20,6 +21,8 @@ function Home() {
     headerButtons,
     highlightedDates,
     editingTaskId,
+    showModal,
+    openModal,
     onAdd,
     onDelete,
     onToggle,
@@ -27,6 +30,8 @@ function Home() {
     setDate,
     onDragEnd,
     setEditingTaskId,
+    closeModal,
+    setShowModal,
   } = useHome();
 
   function TaskList({
