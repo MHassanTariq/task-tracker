@@ -10,23 +10,25 @@ import MoreButton from "./moreButton";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckIcon from "@mui/icons-material/Check";
 
-interface Props {
-  task: Task;
-  editingTaskId: string | null;
+export type TaskOperations = {
   onDelete: (id: string) => void;
   onToggle: (id: string) => void;
   editTask: (id: string, newText: string) => void;
-  setEditingTaskId: (id: string | null) => void;
+  setEditingTaskId: (id?: string) => void;
+};
+
+interface Props {
+  task: Task;
+  taskOperations: TaskOperations;
+  editingTaskId?: string;
 }
 
 export default function TaskCard({
   task,
   editingTaskId,
-  onDelete,
-  onToggle,
-  editTask,
-  setEditingTaskId,
+  taskOperations,
 }: Props) {
+  const { onDelete, onToggle, editTask, setEditingTaskId } = taskOperations;
   const { id, isCompleted, text } = task;
   const [isHovering, setIsHovering] = useState(false);
   const [isContentCopied, setIsContentCopied] = useState(false);
@@ -61,7 +63,7 @@ export default function TaskCard({
 
   function onClickSave(data: { text: string }) {
     editTask(id, data.text);
-    setEditingTaskId(null);
+    setEditingTaskId(undefined);
   }
 
   function onCopyContent() {

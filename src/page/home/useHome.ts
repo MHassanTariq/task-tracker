@@ -27,7 +27,7 @@ export function useHome() {
     getTaskedDatesInMonth()
   );
 
-  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [editingTaskId, setEditingTaskId] = useState<string | undefined>();
 
   const headerButtons: HeaderButtonProps = [
     {
