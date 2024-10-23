@@ -1,7 +1,7 @@
-import Home from "./page/home/home";
+import Backlog from "./page/backlog/backlog";
 
 function App() {
-  return <Home />;
+  return <Backlog />;
 }
 
 export default App;
