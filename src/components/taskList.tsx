@@ -5,7 +5,6 @@ import TaskCard, { TaskOperations } from "./taskCard";
 export interface DraggableTaskProps {
   task: Task;
   isHighlighted?: boolean;
-  disableRightOptions?: boolean;
 }
 
 interface Props {
@@ -47,7 +46,6 @@ function DraggableTaskList({
                     editingTaskId={editingTaskId}
                     taskOperations={taskOperations}
                     isHighlighted={item.isHighlighted}
-                    disableRightOptions={item.disableRightOptions}
                   />
                 </div>
               )}
