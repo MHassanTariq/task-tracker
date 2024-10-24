@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
 import { HeaderButtonProps } from "../../components/header";
 import {
+  converTaskToDraggableTask,
   createNewTask,
   formatTasksToReport,
   searchTask,
@@ -124,8 +125,8 @@ export function useHome() {
   };
 
   return {
-    taskList,
-    completedList,
+    taskList: taskList.map(converTaskToDraggableTask),
+    completedList: completedList.map(converTaskToDraggableTask),
     dateToday,
     headerButtons,
     highlightedDates,
