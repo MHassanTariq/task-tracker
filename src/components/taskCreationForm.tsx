@@ -8,10 +8,16 @@ type Inputs = {
 };
 
 interface Props {
+  shouldRenderBackdrop?: boolean;
+  placeholder?: string;
   onSubmitTask: (data: string) => void;
 }
-export default function TaskCreationForm({ onSubmitTask }: Props) {
-  const { register, handleSubmit, setFocus } = useForm<Inputs>({
+export default function TaskCreationForm({
+  shouldRenderBackdrop,
+  placeholder = "📝 Add your task here...",
+  onSubmitTask,
+}: Props) {
+  const { register, handleSubmit, setFocus, reset } = useForm<Inputs>({
     mode: "onSubmit",
   });
   useEffect(() => {
@@ -20,17 +26,22 @@ export default function TaskCreationForm({ onSubmitTask }: Props) {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     onSubmitTask(data.task);
+    reset();
     setFocus("task");
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={`${styles.flexRow} gap-5 ${styles.verticalCenter} md:bg-white/[0.05] md:p-7 rounded-lg md:backdrop-blur-sm md:border-2 border-white/[0.05]`}
+      className={`${styles.flexRow} gap-5 ${styles.verticalCenter} ${
+        shouldRenderBackdrop
+          ? `md:bg-white/[0.05] md:p-7 md:backdrop-blur-sm md:border-2`
+          : ""
+      } rounded-lg border-white/[0.05]`}
     >
       {/* include validation with required or other standard HTML validation rules */}
       <input
-        placeholder="📝 Add your task here..."
+        placeholder={placeholder}
         {...register("task", { required: true })}
         className="flex flex-grow p-2 rounded-md"
       />

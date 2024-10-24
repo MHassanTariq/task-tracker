@@ -52,3 +52,13 @@ export function getTaskedDatesInMonth(): Date[] {
   }
   return highlightedTasks;
 }
+
+export function storeBacklogTasks(tasks: Task[]) {
+  localStorage.setItem("Backlog", JSON.stringify(tasks));
+}
+export function getBacklogTasks(): Task[] {
+  const tasks = getObjectFromString<Task[]>(
+    localStorage.getItem("Backlog") ?? ""
+  );
+  return tasks ?? [];
+}

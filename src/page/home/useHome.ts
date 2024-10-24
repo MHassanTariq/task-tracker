@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { DropResult } from "react-beautiful-dnd";
 import { HeaderButtonProps } from "../../components/header";
 import {
+  convertTaskToDraggableTask,
   createNewTask,
   formatTasksToReport,
   searchTask,
@@ -16,7 +17,7 @@ import { strings } from "../../utils/constants";
 
 export function useHome() {
   // variables
-  const [dateToday, setDate] = useState(new Date());
+  const [dateToday, setDateToday] = useState(new Date());
   const [taskList, setTaskList] = useState<Task[]>(
     getDatedTasks("taskList", dateToday)
   );
@@ -27,7 +28,7 @@ export function useHome() {
     getTaskedDatesInMonth()
   );
 
-  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [editingTaskId, setEditingTaskId] = useState<string | undefined>();
 
   const headerButtons: HeaderButtonProps = [
     {
@@ -123,9 +124,13 @@ export function useHome() {
       : setCompletedList(newTaskArray);
   };
 
+  function setDate(date: Date) {
+    setDateToday(date);
+  }
+
   return {
-    taskList,
-    completedList,
+    taskList: taskList.map(convertTaskToDraggableTask),
+    completedList: completedList.map(convertTaskToDraggableTask),
     dateToday,
     headerButtons,
     highlightedDates,
