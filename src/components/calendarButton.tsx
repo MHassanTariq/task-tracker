@@ -7,9 +7,11 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { Dayjs } from "dayjs";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers";
 import { areTwoDatesSame } from "../helpers/dateTimeHelper";
+import { StandardButton, StandardButtonProps } from "./standardButton";
 
 interface Props {
   currentSelectedDate: Date;
+  btnConfig?: Omit<StandardButtonProps, "onClick">;
   highlightedDays?: Date[];
   onDateChange: (date: Date) => void;
 }
@@ -45,8 +47,9 @@ function ServerDay(
 
 const CalendarIconWithDatePicker = ({
   currentSelectedDate,
-  onDateChange,
+  btnConfig,
   highlightedDays = [],
+  onDateChange,
 }: Props) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -61,11 +64,20 @@ const CalendarIconWithDatePicker = ({
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  function renderParentComponent() {
+    if (!btnConfig)
+      return (
+        <IconButton onClick={handleIconClick}>
+          <CalendarMonthIcon style={{ color: "gainsboro" }} />
+        </IconButton>
+      );
+
+    return <StandardButton {...btnConfig} onClick={handleIconClick} />;
+  }
+
   return (
     <div>
-      <IconButton onClick={handleIconClick}>
-        <CalendarMonthIcon style={{ color: "gainsboro" }} />
-      </IconButton>
+      {renderParentComponent()}
       <Popover
         id={id}
         open={open}
