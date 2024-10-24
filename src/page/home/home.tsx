@@ -49,8 +49,8 @@ function Home() {
   return (
     <PageScreen onDragEnd={onDragEnd} headerButtons={headerButtons}>
       <Title />
-      <div className="flex flex-1 flex-col pt-5 lg:px-14 gap-5">
-        <TaskCreationForm onSubmitTask={onAdd} />
+      <div className={styles.bodyArea}>
+        <TaskCreationForm onSubmitTask={onAdd} shouldRenderBackdrop />
         <DraggableTaskList
           taskList={taskList}
           listId={"todoList"}

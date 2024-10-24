@@ -21,12 +21,16 @@ interface Props {
   task: Task;
   taskOperations: TaskOperations;
   editingTaskId?: string;
+  isHighlighted?: boolean;
+  disableRightOptions?: boolean;
 }
 
 export default function TaskCard({
   task,
   editingTaskId,
   taskOperations,
+  isHighlighted,
+  disableRightOptions,
 }: Props) {
   const { onDelete, onToggle, editTask, setEditingTaskId } = taskOperations;
   const { id, isCompleted, text } = task;
@@ -79,7 +83,7 @@ export default function TaskCard({
 
     return (
       <Checkbox
-        checked={isCompleted}
+        checked={isCompleted || isHighlighted}
         onChange={onClickToggle}
         size="small"
         style={{ color: "gainsboro", margin: 0, padding: 0 }}
@@ -88,6 +92,8 @@ export default function TaskCard({
   }
 
   function RightIcon() {
+    if (disableRightOptions) return null;
+
     if (editingTaskId === id)
       return (
         <IconButton
@@ -164,7 +170,9 @@ export default function TaskCard({
 
   return (
     <div
-      className={`flex ${colors.taskCardBg} rounded-md p-5 ${styles.verticalCenter}`}
+      className={`flex ${colors.taskCardBg} rounded-md p-5 ${
+        styles.verticalCenter
+      } ${isHighlighted ? "border-skyMagenta border-2" : ""}`}
       onMouseEnter={onMouseHover}
       onMouseLeave={onMouseUnhover}
     >
