@@ -51,10 +51,9 @@ export function formatTasksToReport(
   )}:${completedTaskString}${remainingTaskString}`;
 }
 
-export function converTaskToDraggableTask(task: Task): DraggableTaskProps {
+export function convertTaskToDraggableTask(task: Task): DraggableTaskProps {
   return {
     task,
     isHighlighted: false,
-    disableRightOptions: false,
   };
 }

@@ -4,7 +4,7 @@ import styles from "../utils/styles";
 
 type Size = "small" | "medium" | "large";
 
-interface Props {
+export interface StandardButtonProps {
   type: "submit" | "button";
   text: string;
   size?: Size;
@@ -18,7 +18,7 @@ export function StandardButton({
   size = "small",
   disabled = false,
   onClick,
-}: Props) {
+}: StandardButtonProps) {
   function getDimensionsFromSize(): string {
     switch (size) {
       case "small":

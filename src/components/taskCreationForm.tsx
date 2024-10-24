@@ -17,7 +17,7 @@ export default function TaskCreationForm({
   placeholder = "📝 Add your task here...",
   onSubmitTask,
 }: Props) {
-  const { register, handleSubmit, setFocus } = useForm<Inputs>({
+  const { register, handleSubmit, setFocus, reset } = useForm<Inputs>({
     mode: "onSubmit",
   });
   useEffect(() => {
@@ -26,6 +26,7 @@ export default function TaskCreationForm({
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     onSubmitTask(data.task);
+    reset();
     setFocus("task");
   };
 

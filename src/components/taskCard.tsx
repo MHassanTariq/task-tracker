@@ -22,7 +22,6 @@ interface Props {
   taskOperations: TaskOperations;
   editingTaskId?: string;
   isHighlighted?: boolean;
-  disableRightOptions?: boolean;
 }
 
 export default function TaskCard({
@@ -30,7 +29,6 @@ export default function TaskCard({
   editingTaskId,
   taskOperations,
   isHighlighted,
-  disableRightOptions,
 }: Props) {
   const { onDelete, onToggle, editTask, setEditingTaskId } = taskOperations;
   const { id, isCompleted, text } = task;
@@ -92,8 +90,6 @@ export default function TaskCard({
   }
 
   function RightIcon() {
-    if (disableRightOptions) return null;
-
     if (editingTaskId === id)
       return (
         <IconButton
