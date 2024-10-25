@@ -6,12 +6,19 @@ function SideBar() {
   return (
     <div className={`xsm:hidden lg:flex flex-col p-7 ${colors.navBarBg} w-60`}>
       <Logo />
-      <ul className="mt-9 space-y-9">
+      <ul className="mt-8  space-7-8">
         <li className="flex items-center">
           <Link
-            to="/backlog"
-            className="flex items-center space-x-3 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full text-white"
+            to="/Home"
+            className={`${colors.btnGradient} flex flex-1 rounded-full ${colors.text} px-2 py-1`}
           >
+            TaskBoard
+          </Link>
+        </li>
+      </ul>
+      <ul className="mt-9 space-y-9">
+        <li className="flex items-center">
+          <Link to="/backlog" className="btnGradient">
             Backlog
           </Link>
         </li>
