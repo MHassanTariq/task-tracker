@@ -1,13 +1,13 @@
 import React from "react";
 import SideBar from "../../components/sideBar";
 
-function backlog() {
+function Backlog() {
   return (
     <div>
+      <h1>Backlog</h1>
       <SideBar />
-      <div>backlog Page</div>
     </div>
   );
 }
 
-export default backlog;
+export default Backlog;
