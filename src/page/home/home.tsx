@@ -25,6 +25,7 @@ function Home() {
     setEditingTaskId,
     updateTaskListOrder,
     updateCompletedTaskListOrder,
+    onMoveToBacklog,
   } = useHome();
 
   const taskOperations: TaskOperations = {
@@ -32,6 +33,7 @@ function Home() {
     onToggle,
     editTask: onUpdate,
     setEditingTaskId,
+    onMoveToBacklog,
   };
 
   function Title() {
