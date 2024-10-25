@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { DropResult } from "react-beautiful-dnd";
 import { HeaderButtonProps } from "../../components/header";
 import {
   convertTaskToDraggableTask,
@@ -14,6 +13,7 @@ import {
   saveDatedTasks,
 } from "../../services/tasks";
 import { strings } from "../../utils/constants";
+import { DraggableTaskProps } from "../../components/draggableTaskList";
 
 export function useHome() {
   // variables
@@ -68,7 +68,17 @@ export function useHome() {
     setCompletedList(getDatedTasks("completedList", dateToday));
   }, [dateToday]);
 
-  // logical functions
+  // public functions
+  function updateCompletedTaskListOrder(
+    draggableTaskList: DraggableTaskProps[]
+  ) {
+    setCompletedList(draggableTaskList.map((item) => item.task));
+  }
+
+  function updateTaskListOrder(draggableTaskList: DraggableTaskProps[]) {
+    setTaskList(draggableTaskList.map((item) => item.task));
+  }
+
   function onDelete(id: string) {
     setTaskList(taskList.filter((task) => task.id !== id));
     setCompletedList(completedList.filter((task) => task.id !== id));
@@ -111,19 +121,6 @@ export function useHome() {
     }
   }
 
-  const onDragEnd = (result: DropResult) => {
-    const { destination, source } = result;
-
-    if (!destination) return;
-    const newTaskArray =
-      source.droppableId === "todoList" ? [...taskList] : [...completedList];
-    const [draggedItem] = newTaskArray.splice(source.index, 1);
-    newTaskArray.splice(destination.index, 0, draggedItem);
-    source.droppableId === "todoList"
-      ? setTaskList(newTaskArray)
-      : setCompletedList(newTaskArray);
-  };
-
   function setDate(date: Date) {
     setDateToday(date);
   }
@@ -140,7 +137,8 @@ export function useHome() {
     onToggle,
     onUpdate,
     setDate,
-    onDragEnd,
     setEditingTaskId,
+    updateTaskListOrder,
+    updateCompletedTaskListOrder,
   };
 }
