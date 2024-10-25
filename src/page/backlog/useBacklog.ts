@@ -4,9 +4,8 @@ import {
   createNewTask,
 } from "../../helpers/taskHelpers";
 import {
+  addMultipleTasksToDate,
   getBacklogTasks,
-  getDatedTasks,
-  saveDatedTasks,
   storeBacklogTasks,
 } from "../../services/tasks";
 import { DraggableTaskProps } from "../../components/draggableTaskList";
@@ -70,15 +69,10 @@ export function useBacklog() {
 
   function moveTaskToDate(date: Date) {
     const ids = getHighlightedTaskIds();
-    const savedTaskList = getDatedTasks("taskList", date);
-    const completedList = getDatedTasks("completedList", date);
     const newTaskList = backlogTasks
       .filter((item) => ids.includes(item.task.id))
       .map((item) => item.task);
-    saveDatedTasks(date, {
-      taskList: savedTaskList.concat(newTaskList),
-      completedList,
-    });
+    addMultipleTasksToDate(date, newTaskList);
 
     // delete the tasks that have been moved
     discardTasks();

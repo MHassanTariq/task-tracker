@@ -15,6 +15,7 @@ export type TaskOperations = {
   onToggle: (id: string) => void;
   editTask: (id: string, newText: string) => void;
   setEditingTaskId: (id?: string) => void;
+  onMoveToBacklog?: (id: string) => void;
 };
 
 interface Props {
@@ -30,7 +31,8 @@ export default function TaskCard({
   taskOperations,
   isHighlighted,
 }: Props) {
-  const { onDelete, onToggle, editTask, setEditingTaskId } = taskOperations;
+  const { onDelete, onToggle, editTask, setEditingTaskId, onMoveToBacklog } =
+    taskOperations;
   const { id, isCompleted, text } = task;
   const [isHovering, setIsHovering] = useState(false);
   const [isContentCopied, setIsContentCopied] = useState(false);
@@ -51,6 +53,10 @@ export default function TaskCard({
 
   function onClickEdit() {
     setEditingTaskId(id);
+  }
+
+  function onClickMoveBacklog() {
+    onMoveToBacklog?.(id);
   }
 
   function onMouseHover() {
@@ -119,6 +125,9 @@ export default function TaskCard({
             options={[
               { text: "Delete", onClick: onClickDelete },
               { text: "Edit", onClick: onClickEdit },
+              ...(onMoveToBacklog
+                ? [{ text: "Move to Backlog", onClick: onClickMoveBacklog }]
+                : []),
             ]}
           />
         </div>

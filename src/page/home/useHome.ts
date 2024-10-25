@@ -8,12 +8,17 @@ import {
   Task,
 } from "../../helpers/taskHelpers";
 import {
+  addMultipleTasksToDate,
+  appendBacklogTask,
+  deleteDatedTasks,
   getDatedTasks,
+  getLastWorkingDate,
   getTaskedDatesInMonth,
   saveDatedTasks,
 } from "../../services/tasks";
 import { strings } from "../../utils/constants";
 import { DraggableTaskProps } from "../../components/draggableTaskList";
+import { showToast } from "../../components/backlogTaskToast";
 
 export function useHome() {
   // variables
@@ -68,6 +73,31 @@ export function useHome() {
     setCompletedList(getDatedTasks("completedList", dateToday));
   }, [dateToday]);
 
+  useEffect(() => {
+    const lastWorkingDay = getLastWorkingDate();
+    if (!lastWorkingDay) return;
+
+    const remainingTasks = getDatedTasks("taskList", lastWorkingDay);
+    if (remainingTasks.length === 0) return;
+
+    const moveRemainingTasksToBacklog = () => {
+      remainingTasks.forEach(appendBacklogTask);
+      deleteDatedTasks(remainingTasks, lastWorkingDay);
+    };
+    const moveTasksToDate = () => {
+      addMultipleTasksToDate(dateToday, remainingTasks);
+      deleteDatedTasks(remainingTasks, lastWorkingDay);
+      setDateToday(new Date());
+    };
+    showToast(
+      remainingTasks.length,
+      lastWorkingDay,
+      moveRemainingTasksToBacklog,
+      moveTasksToDate
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // public functions
   function updateCompletedTaskListOrder(
     draggableTaskList: DraggableTaskProps[]
@@ -82,6 +112,14 @@ export function useHome() {
   function onDelete(id: string) {
     setTaskList(taskList.filter((task) => task.id !== id));
     setCompletedList(completedList.filter((task) => task.id !== id));
+  }
+
+  function onMoveToBacklog(id: string) {
+    const task = searchTask(taskList, id);
+    if (!task) return;
+
+    onDelete(id);
+    appendBacklogTask(task);
   }
 
   function onAdd(text: string) {
@@ -140,5 +178,6 @@ export function useHome() {
     setEditingTaskId,
     updateTaskListOrder,
     updateCompletedTaskListOrder,
+    onMoveToBacklog,
   };
 }
