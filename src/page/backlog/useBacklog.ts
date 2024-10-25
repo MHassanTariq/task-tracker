@@ -10,7 +10,6 @@ import {
   storeBacklogTasks,
 } from "../../services/tasks";
 import { DraggableTaskProps } from "../../components/draggableTaskList";
-import { DropResult } from "react-beautiful-dnd";
 
 export function useBacklog() {
   const [backlogTasks, setBacklogTasks] = useState<DraggableTaskProps[]>(
@@ -85,23 +84,6 @@ export function useBacklog() {
     discardTasks();
   }
 
-  function onDragEnd(result: DropResult) {
-    const { destination, source } = result;
-    console.log("🚀 ~ onDragEnd ~ destination, source:", destination, source);
-
-    if (!destination) return;
-    if (
-      source.droppableId !== "backlogList" ||
-      destination.droppableId !== "backlogList"
-    )
-      return;
-
-    const newTaskArray = [...backlogTasks];
-    const [draggedItem] = newTaskArray.splice(source.index, 1);
-    newTaskArray.splice(destination.index, 0, draggedItem);
-    setBacklogTasks(newTaskArray);
-  }
-
   return {
     backlogTasks,
     editTaskId,
@@ -113,6 +95,6 @@ export function useBacklog() {
     onEditTask,
     discardTasks,
     moveTaskToDate,
-    onDragEnd,
+    updateTaskListOrder: setBacklogTasks,
   };
 }

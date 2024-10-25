@@ -19,7 +19,7 @@ function Backlog() {
     moveTaskToDate,
     discardTasks,
     toggleBacklog,
-    onDragEnd,
+    updateTaskListOrder,
   } = useBacklog();
   const taskOperations = {
     onDelete: onDeleteTask,
@@ -55,7 +55,7 @@ function Backlog() {
   }
 
   return (
-    <PageScreen onDragEnd={onDragEnd}>
+    <PageScreen>
       <Title />
       <div className={styles.bodyArea}>
         <TaskCreationForm
@@ -65,9 +65,9 @@ function Backlog() {
         <StandardButtonOptions />
         <DraggableTaskList
           taskList={backlogTasks}
-          listId={"backlogList"}
           taskOperations={taskOperations}
           editingTaskId={editTaskId}
+          updateTaskListOrder={updateTaskListOrder}
         />
       </div>
     </PageScreen>
