@@ -93,6 +93,7 @@ const CalendarIconWithDatePicker = ({
             views={["day"]}
             value={dayjs(currentSelectedDate)}
             defaultValue={dayjs(new Date())}
+            minDate={btnConfig ? dayjs(new Date()) : undefined}
             onChange={(value) => {
               onDateChange(new Date(value));
             }}
