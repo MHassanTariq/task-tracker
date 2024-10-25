@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { formatDateAndDay } from "./dateTimeHelper";
-import { DraggableTaskProps } from "../components/taskList";
+import { DraggableTaskProps } from "../components/draggableTaskList";
 
 export type Task = {
   text: string;
