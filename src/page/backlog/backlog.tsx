@@ -3,7 +3,7 @@ import colors from "../../utils/colors";
 import styles from "../../utils/styles";
 import TaskCreationForm from "../../components/taskCreationForm";
 import { StandardButton } from "../../components/standardButton";
-import DraggableTaskList from "../../components/taskList";
+import DraggableTaskList from "../../components/draggableTaskList";
 import { useBacklog } from "./useBacklog";
 import CalendarButton from "../../components/calendarButton";
 
