@@ -62,3 +62,54 @@ export function getBacklogTasks(): Task[] {
   );
   return tasks ?? [];
 }
+
+export function appendBacklogTask(task: Task) {
+  const currentTasks = getBacklogTasks();
+  currentTasks.push(task);
+  storeBacklogTasks(currentTasks);
+}
+
+export function getLastWorkingDate() {
+  const allDates = getTaskedDatesInMonth();
+  if (allDates.length === 0) {
+    return null;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset time to midnight for accurate date-only comparison
+
+  // Filter out dates beyond today and also exclude today's date
+  const pastDates = allDates.filter((date) => date.getTime() < today.getTime());
+
+  if (pastDates.length === 0) {
+    return null;
+  }
+
+  // Sort past dates in descending order to get the latest past working date
+  pastDates.sort((a, b) => b.getTime() - a.getTime());
+
+  return pastDates[0];
+}
+
+function getRemovedDatedTaskList(tasks: Task[], date: Date, type: TaskTypes) {
+  const previousTasks = getDatedTasks(type, date);
+  const remainingTasks = previousTasks.filter(
+    (task) => !tasks.some((t) => t.id === task.id)
+  );
+  return remainingTasks;
+}
+export function deleteDatedTasks(tasks: Task[], date: Date) {
+  const taskList = getRemovedDatedTaskList(tasks, date, "taskList");
+  const completedList = getRemovedDatedTaskList(tasks, date, "completedList");
+
+  saveDatedTasks(date, { taskList, completedList });
+}
+
+export function addMultipleTasksToDate(date: Date, tasks: Task[]) {
+  const savedTaskList = getDatedTasks("taskList", date);
+  const completedList = getDatedTasks("completedList", date);
+  saveDatedTasks(date, {
+    taskList: savedTaskList.concat(tasks),
+    completedList,
+  });
+}

@@ -1,7 +1,13 @@
-import Backlog from "./page/backlog/backlog";
+import { Toaster } from "react-hot-toast";
+import Home from "./page/home/home";
 
 function App() {
-  return <Backlog />;
+  return (
+    <div>
+      <Toaster position="top-right" reverseOrder={false} />
+      <Home />
+    </div>
+  );
 }
 
 export default App;
