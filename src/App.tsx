@@ -1,11 +1,11 @@
 import { Toaster } from "react-hot-toast";
-import Home from "./page/home/home";
+import Backlog from "./page/backlog/backlog";
 
 function App() {
   return (
     <div>
       <Toaster position="top-right" reverseOrder={false} />
-      <Home />
+      <Backlog />
     </div>
   );
 }
