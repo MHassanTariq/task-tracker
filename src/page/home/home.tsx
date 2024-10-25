@@ -7,7 +7,7 @@ import colors from "../../utils/colors";
 import styles from "../../utils/styles";
 import { useHome } from "./useHome";
 import PageScreen from "../../components/pageScreen";
-import DraggableTaskList from "../../components/taskList";
+import DraggableTaskList from "../../components/draggableTaskList";
 
 function Home() {
   const {
