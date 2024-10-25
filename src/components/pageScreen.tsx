@@ -1,4 +1,3 @@
-import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
 import { Doodles } from "../assets/svgs/doodles";
 import SideBar from "./sideBar";
 import colors from "../utils/colors";
@@ -8,10 +7,9 @@ import Header, { HeaderButtonProps } from "./header";
 interface Props {
   headerButtons?: HeaderButtonProps;
   children?: React.ReactNode;
-  onDragEnd?: OnDragEndResponder;
 }
 
-function PageScreen({ headerButtons = [], children, onDragEnd }: Props) {
+function PageScreen({ headerButtons = [], children }: Props) {
   function renderScreenUI() {
     return (
       <div
@@ -33,17 +31,7 @@ function PageScreen({ headerButtons = [], children, onDragEnd }: Props) {
     );
   }
 
-  function renderDraggableScreenUI() {
-    if (onDragEnd)
-      return (
-        <DragDropContext onDragEnd={onDragEnd}>
-          {renderScreenUI()}
-        </DragDropContext>
-      );
-
-    return renderScreenUI();
-  }
-  return renderDraggableScreenUI();
+  return renderScreenUI();
 }
 
 export default PageScreen;

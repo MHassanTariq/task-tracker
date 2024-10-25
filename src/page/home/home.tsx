@@ -22,8 +22,9 @@ function Home() {
     onToggle,
     onUpdate,
     setDate,
-    onDragEnd,
     setEditingTaskId,
+    updateTaskListOrder,
+    updateCompletedTaskListOrder,
   } = useHome();
 
   const taskOperations: TaskOperations = {
@@ -47,15 +48,15 @@ function Home() {
   }
 
   return (
-    <PageScreen onDragEnd={onDragEnd} headerButtons={headerButtons}>
+    <PageScreen headerButtons={headerButtons}>
       <Title />
       <div className={styles.bodyArea}>
         <TaskCreationForm onSubmitTask={onAdd} shouldRenderBackdrop />
         <DraggableTaskList
           taskList={taskList}
-          listId={"todoList"}
           editingTaskId={editingTaskId}
           taskOperations={taskOperations}
+          updateTaskListOrder={updateTaskListOrder}
         />
         <Seperator
           title={"Completed"}
@@ -63,9 +64,9 @@ function Home() {
         />
         <DraggableTaskList
           taskList={completedList}
-          listId={"completedList"}
           editingTaskId={editingTaskId}
           taskOperations={taskOperations}
+          updateTaskListOrder={updateCompletedTaskListOrder}
         />
       </div>
     </PageScreen>
