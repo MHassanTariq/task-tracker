@@ -54,7 +54,7 @@ export function PrimaryButton({
     <>
       <ButtonBase type={type} onClick={onClickPrimaryBtn}>
         <p
-          className={`${getAppearanceFromVariant()} rounded py-1.5 px-3.5 flex flex-1 justify-center`}
+          className={`${getAppearanceFromVariant()} rounded py-1.5 md:px-3.5 px-2 flex flex-1 justify-center`}
         >
           {text}
         </p>

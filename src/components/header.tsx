@@ -18,7 +18,7 @@ function Header({ buttons }: Props) {
   function renderHeaderButtons() {
     return (
       <header
-        className={`${styles.flexRow} ${styles.verticalCenter} justify-end gap-5 flex-1`}
+        className={`${styles.flexRow} ${styles.verticalCenter} justify-end gap-2 md:gap-5  flex-1`}
       >
         {buttons.map((button, index) => (
           <PrimaryButton
