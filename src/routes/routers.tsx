@@ -1,19 +1,15 @@
-import { createBrowserRouter } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "../page/home/home";
 import Backlog from "../page/backlog/backlog";
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "backlog",
-    element: <Backlog />,
-  },
-  {
-    path: "*", // catch all undefined routes ( wildcard *)
-    element: <Home />, // renders the  NotFound component for any undefined routes
-  },
-]);
 
-export default router;
+export function Router() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/backlog" element={<Backlog />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
