@@ -1,25 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../page/home/home";
-import DrawerMenu from "../components/drawerMenu";
 import Backlog from "../page/backlog/backlog";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <>
-        <DrawerMenu />
-        <Home />
-      </>
-    ),
+    element: <Home />,
   },
   {
     path: "backlog",
-    element: (
-      <>
-        <DrawerMenu />
-        <Backlog />
-      </>
-    ),
+    element: <Backlog />,
   },
   {
     path: "*", // catch all undefined routes ( wildcard *)

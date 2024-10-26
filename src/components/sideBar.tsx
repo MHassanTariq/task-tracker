@@ -7,12 +7,12 @@ import styles from "../utils/styles";
 
 function SideBar() {
   const location = useLocation(); // Get the current location
-  const unselectedStyles = `flex flex-1 ${colors.text} px-4 py-1`;
-  const selectedStyles = `${colors.btnGradient} rounded-full font-bold ${unselectedStyles}`;
 
   function renderLinkAndIcon(path: string, text: string, Icon: React.FC) {
     const isSelected = location.pathname === path;
-    const linkStyles = isSelected ? selectedStyles : unselectedStyles;
+    const linkStyles = isSelected
+      ? styles.sideBarSelectedItem
+      : styles.sideBarUnselectedItem;
 
     return (
       <div className={`flex ${styles.verticalCenter} ${linkStyles} gap-2`}>

@@ -5,41 +5,65 @@ import {
   List,
   ListItem,
   ListItemText,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { TaskListIcon } from "../assets/svgs/taskListIcon";
+import Logo from "../assets/svgs/logo";
+import { BacklogIcon } from "../assets/svgs/backlogIcon";
+import styles from "../utils/styles";
+import colors from "../utils/colors";
 
 const DrawerMenu: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const location = useLocation(); // Get the current location
 
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
   };
 
-  return (
-    <div>
-      {isMobile && (
-        <IconButton edge="start" onClick={toggleDrawer(true)}>
-          <MenuIcon />
-        </IconButton>
-      )}
-      <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer(false)}>
-        <List>
-          <ListItem component={Link} to="/" onClick={toggleDrawer(false)}>
-            <ListItemText primary="Home" />
-          </ListItem>
+  function renderLinkAndIcon(path: string, Icon: React.FC, text: string) {
+    const isSelected = location.pathname === path;
+    const linkStyles = isSelected
+      ? styles.sideBarSelectedItem
+      : styles.sideBarUnselectedItem;
+    return (
+      <ListItem
+        component={Link}
+        to={path}
+        onClick={toggleDrawer(false)}
+        className={`flex ${styles.verticalCenter} ${linkStyles} gap-2 my-2`}
+      >
+        <Icon />
+        <ListItemText primary={text} />
+      </ListItem>
+    );
+  }
 
-          <ListItem
-            component={Link}
-            to="/backlog"
-            onClick={toggleDrawer(false)}
-          >
-            <ListItemText primary="Backlog" />
-          </ListItem>
+  return (
+    <div className="lg:hidden">
+      <IconButton edge="start" onClick={toggleDrawer(true)}>
+        <MenuIcon className={colors.text} />
+      </IconButton>
+      <Drawer
+        anchor="left"
+        open={isDrawerOpen}
+        onClose={toggleDrawer(false)}
+        sx={{
+          "& .MuiDrawer-paper": {
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            backdropFilter: "blur(4px)",
+            width: 300,
+            padding: "24px",
+          },
+        }}
+      >
+        <List className={`flex flex-col m-4`}>
+          <div className={`flex flex-1 ${styles.centerChildren} mt-4 mb-10`}>
+            <Logo width={60} height={60} />
+          </div>
+          {renderLinkAndIcon("/", TaskListIcon, "Task List")}
+          {renderLinkAndIcon("/backlog", BacklogIcon, "Backlog")}
         </List>
       </Drawer>
     </div>
