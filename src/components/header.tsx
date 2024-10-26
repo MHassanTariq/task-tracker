@@ -15,13 +15,10 @@ interface Props {
 }
 
 function Header({ buttons }: Props) {
-  return (
-    <div
-      className={`p-7 ${styles.flexRow} justify-between ${styles.verticalCenter}`}
-    >
-      <DrawerMenu />
+  function renderHeaderButtons() {
+    return (
       <header
-        className={`${styles.flexRow} ${styles.verticalCenter} justify-end gap-5`}
+        className={`${styles.flexRow} ${styles.verticalCenter} justify-end gap-5 flex-1`}
       >
         {buttons.map((button, index) => (
           <PrimaryButton
@@ -34,6 +31,15 @@ function Header({ buttons }: Props) {
           />
         ))}
       </header>
+    );
+  }
+
+  return (
+    <div
+      className={`p-7 ${styles.flexRow} justify-between ${styles.verticalCenter} `}
+    >
+      <DrawerMenu />
+      {renderHeaderButtons()}
     </div>
   );
 }
