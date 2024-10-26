@@ -1,8 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../page/home/home";
-import Backlog from "../page/home/backlog";
-import NotFound from "../page/home/notFound";
 import DrawerMenu from "../components/drawerMenu";
+import Backlog from "../page/backlog/backlog";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,7 +23,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*", // catch all undefined routes ( wildcard *)
-    element: <NotFound />, // renders the  NotFound component for any undefined routes
+    element: <Home />, // renders the  NotFound component for any undefined routes
   },
 ]);
 
