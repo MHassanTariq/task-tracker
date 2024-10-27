@@ -3,6 +3,7 @@ import {
   closestCenter,
   useSensor,
   useSensors,
+  PointerSensor,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -13,7 +14,6 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import TaskCard, { TaskOperations } from "./taskCard";
 import { Task } from "../helpers/taskHelpers";
-import { PointerSensor } from "@dnd-kit/core";
 
 export interface DraggableTaskProps {
   task: Task;
@@ -49,12 +49,20 @@ class MaskDraggableSensors extends PointerSensor {
 }
 
 function SortableTaskItem({ item, taskOperations, editingTaskId }: any) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.task.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: item.task.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    boxShadow: isDragging ? "0px 8px 16px rgba(0, 0, 0, 0.2)" : "none", // Add shadow on drag
+    zIndex: isDragging ? 1 : "auto", // Bring dragged item to the top
   };
 
   return (
@@ -82,7 +90,12 @@ function DraggableTaskList({
   updateTaskListOrder,
 }: Props) {
   const sensors = useSensors(
-    useSensor(MaskDraggableSensors) // Use custom pointer sensor here
+    useSensor(MaskDraggableSensors, {
+      activationConstraint: {
+        delay: 250, // Delay in ms before the drag is activated
+        tolerance: 5, // Number of pixels of movement to detect a drag
+      },
+    })
   );
 
   const handleDragEnd = (event: any) => {
