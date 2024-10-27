@@ -19,6 +19,10 @@ import {
 import { strings } from "../../utils/constants";
 import { DraggableTaskProps } from "../../components/draggableTaskList";
 import { showToast } from "../../components/backlogTaskToast";
+import {
+  setLastNotificationShownDate,
+  shouldShowNotification,
+} from "../../services/notifications";
 
 export function useHome() {
   // variables
@@ -63,17 +67,22 @@ export function useHome() {
 
   // hooks
   useEffect(() => {
+    // save dates in the storage and update the calendar
     saveDatedTasks(dateToday, { taskList, completedList });
     setHighlightedDates(getTaskedDatesInMonth());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskList, completedList]);
 
   useEffect(() => {
+    // update tasks with the new date
     setTaskList(getDatedTasks("taskList", dateToday));
     setCompletedList(getDatedTasks("completedList", dateToday));
   }, [dateToday]);
 
   useEffect(() => {
+    // show notification
+    if (!shouldShowNotification()) return;
+
     const lastWorkingDay = getLastWorkingDate();
     if (!lastWorkingDay) return;
 
@@ -95,6 +104,8 @@ export function useHome() {
       moveRemainingTasksToBacklog,
       moveTasksToDate
     );
+
+    setLastNotificationShownDate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
