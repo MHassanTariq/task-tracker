@@ -3,7 +3,7 @@ import {
   closestCenter,
   useSensor,
   useSensors,
-  PointerSensor,
+  TouchSensor,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -27,10 +27,10 @@ interface Props {
   updateTaskListOrder: (taskList: DraggableTaskProps[]) => void;
 }
 
-class MaskDraggableSensors extends PointerSensor {
+class MaskDraggableSensors extends TouchSensor {
   static activators = [
     {
-      eventName: "onPointerDown" as const,
+      eventName: "onTouchStart" as const,
       handler: ({ nativeEvent: event }: any) => {
         // Check if the target is an interactive element
         const interactiveElements = ["BUTTON", "INPUT", "TEXTAREA"];
