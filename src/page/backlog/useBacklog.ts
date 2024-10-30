@@ -9,6 +9,10 @@ import {
   storeBacklogTasks,
 } from "../../services/tasks";
 import { DraggableTaskProps } from "../../components/draggableTaskList";
+import { AnalyticPages, events } from "../../analytics/consts";
+import { fireEvent } from "../../analytics/helper";
+
+const page = AnalyticPages.TASKS;
 
 export function useBacklog() {
   const [backlogTasks, setBacklogTasks] = useState<DraggableTaskProps[]>(
@@ -40,6 +44,8 @@ export function useBacklog() {
       convertTaskToDraggableTask(createNewTask(text)),
     ];
     setBacklogTasks(taskList);
+
+    fireEvent(page, events.TASKS.TASK_ADDED);
   }
 
   function toggleBacklog(id: string) {
@@ -52,6 +58,8 @@ export function useBacklog() {
 
   function onDeleteTask(id: string) {
     setBacklogTasks(backlogTasks.filter((item) => item.task.id !== id));
+
+    fireEvent(page, events.TASKS.TASK_REMOVED);
   }
 
   function onEditTask(id: string, text: string) {
@@ -59,12 +67,17 @@ export function useBacklog() {
     if (text === "" || index < 0) return;
 
     backlogTasks[index].task.text = text;
+
+    fireEvent(page, events.TASKS.TASK_UPDATED);
+
     return setBacklogTasks([...backlogTasks]);
   }
 
   function discardTasks() {
     const ids = getHighlightedTaskIds();
     setBacklogTasks(backlogTasks.filter((item) => !ids.includes(item.task.id)));
+
+    fireEvent(page, events.TASKS.DISCARDED);
   }
 
   function moveTaskToDate(date: Date) {
@@ -76,6 +89,8 @@ export function useBacklog() {
 
     // delete the tasks that have been moved
     discardTasks();
+
+    fireEvent(page, events.TASKS.MOVE_TO_DATE);
   }
 
   return {
