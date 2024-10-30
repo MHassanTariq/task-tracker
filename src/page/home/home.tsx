@@ -67,7 +67,7 @@ function Home() {
         <DraggableTaskList
           taskList={completedList}
           editingTaskId={editingTaskId}
-          taskOperations={taskOperations}
+          taskOperations={{ ...taskOperations, onMoveToBacklog: undefined }}
           updateTaskListOrder={updateCompletedTaskListOrder}
         />
       </div>

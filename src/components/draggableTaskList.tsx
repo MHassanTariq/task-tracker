@@ -3,7 +3,8 @@ import {
   closestCenter,
   useSensor,
   useSensors,
-  PointerSensor,
+  TouchSensor,
+  MouseSensor,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -15,35 +16,40 @@ import { CSS } from "@dnd-kit/utilities";
 import TaskCard, { TaskOperations } from "./taskCard";
 import { Task } from "../helpers/taskHelpers";
 
-export interface DraggableTaskProps {
-  task: Task;
-  isHighlighted?: boolean;
+function draggableHandler({ nativeEvent: event }: any) {
+  // Check if the target is an interactive element
+  const interactiveElements = ["BUTTON", "INPUT", "TEXTAREA"];
+  if (
+    interactiveElements.includes(event.target.tagName) ||
+    event.target.closest(".MuiIconButton-root") || // IconButton
+    event.target.closest(".MuiMenu-root") || // Menu
+    event.target.closest(".MuiMenuItem-root") // MenuItem
+  ) {
+    return false;
+  }
+  return true;
 }
 
-interface Props {
-  taskList: DraggableTaskProps[];
-  taskOperations: TaskOperations;
-  editingTaskId?: string;
-  updateTaskListOrder: (taskList: DraggableTaskProps[]) => void;
-}
+const draggableConstraints = {
+  activationConstraint: {
+    delay: 250, // Delay in ms before the drag is activated
+    tolerance: 5, // Number of pixels of movement to detect a drag
+  },
+};
 
-class MaskDraggableSensors extends PointerSensor {
+class PhoneDraggableSensors extends TouchSensor {
   static activators = [
     {
-      eventName: "onPointerDown" as const,
-      handler: ({ nativeEvent: event }: any) => {
-        // Check if the target is an interactive element
-        const interactiveElements = ["BUTTON", "INPUT", "TEXTAREA"];
-        if (
-          interactiveElements.includes(event.target.tagName) ||
-          event.target.closest(".MuiIconButton-root") || // IconButton
-          event.target.closest(".MuiMenu-root") || // Menu
-          event.target.closest(".MuiMenuItem-root") // MenuItem
-        ) {
-          return false;
-        }
-        return true;
-      },
+      eventName: "onTouchStart" as const,
+      handler: draggableHandler,
+    },
+  ];
+}
+class LaptopDraggableSensors extends MouseSensor {
+  static activators = [
+    {
+      eventName: "onMouseDown" as const,
+      handler: draggableHandler,
     },
   ];
 }
@@ -83,6 +89,18 @@ function SortableTaskItem({ item, taskOperations, editingTaskId }: any) {
   );
 }
 
+export interface DraggableTaskProps {
+  task: Task;
+  isHighlighted?: boolean;
+}
+
+interface Props {
+  taskList: DraggableTaskProps[];
+  taskOperations: TaskOperations;
+  editingTaskId?: string;
+  updateTaskListOrder: (taskList: DraggableTaskProps[]) => void;
+}
+
 function DraggableTaskList({
   taskList,
   editingTaskId,
@@ -90,12 +108,8 @@ function DraggableTaskList({
   updateTaskListOrder,
 }: Props) {
   const sensors = useSensors(
-    useSensor(MaskDraggableSensors, {
-      activationConstraint: {
-        delay: 250, // Delay in ms before the drag is activated
-        tolerance: 5, // Number of pixels of movement to detect a drag
-      },
-    })
+    useSensor(LaptopDraggableSensors, draggableConstraints),
+    useSensor(PhoneDraggableSensors, draggableConstraints)
   );
 
   const handleDragEnd = (event: any) => {
