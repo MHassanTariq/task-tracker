@@ -23,6 +23,10 @@ import {
   setLastNotificationShownDate,
   shouldShowNotification,
 } from "../../services/notifications";
+import { fireEvent } from "../../analytics/helper";
+import { AnalyticPages, events } from "../../analytics/consts";
+
+const page = AnalyticPages.TASKS;
 
 export function useHome() {
   // variables
@@ -123,6 +127,8 @@ export function useHome() {
   function onDelete(id: string) {
     setTaskList(taskList.filter((task) => task.id !== id));
     setCompletedList(completedList.filter((task) => task.id !== id));
+
+    fireEvent(page, events.TASKS.TASK_REMOVED);
   }
 
   function onMoveToBacklog(id: string) {
@@ -131,10 +137,14 @@ export function useHome() {
 
     onDelete(id);
     appendBacklogTask(task);
+
+    fireEvent(page, events.TASKS.MOVE_TO_BACKLOG);
   }
 
   function onAdd(text: string) {
     setTaskList(taskList.concat(createNewTask(text)));
+
+    fireEvent(page, events.TASKS.TASK_ADDED);
   }
 
   function onToggle(id: string) {
@@ -146,12 +156,21 @@ export function useHome() {
     task.isCompleted
       ? setCompletedList(completedList.concat(task))
       : setTaskList(taskList.concat(task));
+
+    fireEvent(
+      page,
+      task.isCompleted
+        ? events.TASKS.TASK_COMPLETED
+        : events.TASKS.TASK_UNCOMPLETED
+    );
   }
 
   function onCopyReport() {
     navigator.clipboard.writeText(
       formatTasksToReport(completedList, taskList, dateToday)
     );
+
+    fireEvent(page, events.STATUS.COPIED);
   }
 
   function onUpdate(id: string, text: string) {
@@ -168,6 +187,8 @@ export function useHome() {
       completedList[index].text = text;
       return setCompletedList([...completedList]);
     }
+
+    fireEvent(page, events.TASKS.TASK_UPDATED);
   }
 
   function setDate(date: Date) {
