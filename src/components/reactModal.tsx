@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import WhatsNewModal from "./whatsNewModal";
 
 const ReactModal: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); //React component names must start with an uppercase letter
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
