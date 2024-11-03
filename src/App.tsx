@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { initGA } from "./analytics/config";
 import { Router } from "./routes/routers";
 import { Toaster } from "react-hot-toast";
-import ReactModal from "./components/reactModal";
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -12,7 +11,6 @@ const App: React.FC = () => {
     <>
       <Toaster position="top-right" reverseOrder={false} />
       <Router />
-      <ReactModal />
     </>
   );
 };

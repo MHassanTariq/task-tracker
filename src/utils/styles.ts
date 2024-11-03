@@ -14,6 +14,8 @@ const styles = {
     "font-bold text-base border-2 rounded flex justify-center items-center",
   sideBarSelectedItem: `${colors.btnGradient} rounded-full font-bold flex flex-1 ${colors.text} px-4 py-1`,
   sideBarUnselectedItem: `flex flex-1 ${colors.text} px-4 py-1`,
+  modalContainer: "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  p-6 rounded-lg shadow-lg max-w-lg w-full"
+
 };
 
 export default styles;

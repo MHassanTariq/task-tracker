@@ -8,8 +8,8 @@ import styles from "../../utils/styles";
 import { useHome } from "./useHome";
 import PageScreen from "../../components/pageScreen";
 import DraggableTaskList from "../../components/draggableTaskList";
+import TaskTrackerModal from "../../components/taskTrackerModal";
 import WhatsNewModal from "../../components/whatsNewModal";
-
 function Home() {
   const {
     taskList,
@@ -74,10 +74,12 @@ function Home() {
           updateTaskListOrder={updateCompletedTaskListOrder}
         />
       </div>
-      <WhatsNewModal
+      <TaskTrackerModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
-      />
+      >
+        <WhatsNewModal />
+      </TaskTrackerModal>
     </PageScreen>
   );
 }
