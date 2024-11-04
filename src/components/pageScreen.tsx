@@ -17,7 +17,7 @@ function PageScreen({ headerButtons = [], children }: Props) {
       >
         <Doodles />
         <div className={`flex-1 relative ${colors.bodyBg} w-full h-full`}>
-          <div className={`${styles.flexRow} h-full relative z-10 w-full`}>
+          <div className={`${styles.flexRow} h-full relative w-full`}>
             <SideBar />
             <div
               className={`flex flex-1 flex-col overflow-auto ${colors.bodyBg}`}
