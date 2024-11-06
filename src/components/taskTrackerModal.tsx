@@ -36,6 +36,7 @@ const TaskTrackerModal: React.FC<ModalProps> = ({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       ariaHideApp={false}
+      overlayClassName={colors.modalOverlay}
     >
       <div ref={modalRef}>{children}</div>
     </ReactModal>
