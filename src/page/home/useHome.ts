@@ -25,6 +25,7 @@ import {
 } from "../../services/notifications";
 import { fireEvent } from "../../analytics/helper";
 import { AnalyticPages, events } from "../../analytics/consts";
+import toast from "react-hot-toast";
 
 const page = AnalyticPages.TASKS;
 
@@ -127,6 +128,7 @@ export function useHome() {
   function onDelete(id: string) {
     setTaskList(taskList.filter((task) => task.id !== id));
     setCompletedList(completedList.filter((task) => task.id !== id));
+    toast.success("Task Deleted");
 
     fireEvent(page, events.TASKS.TASK_REMOVED);
   }
@@ -134,6 +136,7 @@ export function useHome() {
   function onMoveToBacklog(id: string) {
     const task = searchTask(taskList, id);
     if (!task) return;
+    toast.success("Task moved to Backlog");
 
     onDelete(id);
     appendBacklogTask(task);
@@ -143,6 +146,7 @@ export function useHome() {
 
   function onAdd(text: string) {
     setTaskList(taskList.concat(createNewTask(text)));
+    toast.success("Task Succesfully Added");
 
     fireEvent(page, events.TASKS.TASK_ADDED);
   }
@@ -169,6 +173,7 @@ export function useHome() {
     navigator.clipboard.writeText(
       formatTasksToReport(completedList, taskList, dateToday)
     );
+    toast.success("Copied");
 
     fireEvent(page, events.STATUS.COPIED);
   }
