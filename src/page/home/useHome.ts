@@ -25,6 +25,7 @@ import {
 } from "../../services/notifications";
 import { fireEvent } from "../../analytics/helper";
 import { AnalyticPages, events } from "../../analytics/consts";
+import toast from "react-hot-toast";
 
 const page = AnalyticPages.TASKS;
 
@@ -124,9 +125,13 @@ export function useHome() {
     setTaskList(draggableTaskList.map((item) => item.task));
   }
 
-  function onDelete(id: string) {
+  function onDelete(id: string, silent: boolean = false) {
     setTaskList(taskList.filter((task) => task.id !== id));
     setCompletedList(completedList.filter((task) => task.id !== id));
+    if(!silent){
+      toast.success("Task Deleted");
+
+    }
 
     fireEvent(page, events.TASKS.TASK_REMOVED);
   }
@@ -134,8 +139,9 @@ export function useHome() {
   function onMoveToBacklog(id: string) {
     const task = searchTask(taskList, id);
     if (!task) return;
+    toast.success("Task moved to Backlog");
 
-    onDelete(id);
+    onDelete(id, true);
     appendBacklogTask(task);
 
     fireEvent(page, events.TASKS.MOVE_TO_BACKLOG);
