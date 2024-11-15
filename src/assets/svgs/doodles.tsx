@@ -7,7 +7,7 @@ interface DoodlesProps {
 export const Doodles: FC<DoodlesProps> = ({ className = "" }) => {
   return (
     <div
-      className={`absolute top-10 left-10 w-full h-full z-0 opacity-40 ${className}`}
+      className={`absolute top-10 left-10 w-full h-full opacity-40 ${className}`}
     >
       <svg
         width="1093"
