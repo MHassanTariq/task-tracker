@@ -125,10 +125,13 @@ export function useHome() {
     setTaskList(draggableTaskList.map((item) => item.task));
   }
 
-  function onDelete(id: string) {
+  function onDelete(id: string, silent: boolean = false) {
     setTaskList(taskList.filter((task) => task.id !== id));
     setCompletedList(completedList.filter((task) => task.id !== id));
-    toast.success("Task Deleted");
+    if(!silent){
+      toast.success("Task Deleted");
+
+    }
 
     fireEvent(page, events.TASKS.TASK_REMOVED);
   }
@@ -138,7 +141,7 @@ export function useHome() {
     if (!task) return;
     toast.success("Task moved to Backlog");
 
-    onDelete(id);
+    onDelete(id, true);
     appendBacklogTask(task);
 
     fireEvent(page, events.TASKS.MOVE_TO_BACKLOG);
@@ -146,7 +149,6 @@ export function useHome() {
 
   function onAdd(text: string) {
     setTaskList(taskList.concat(createNewTask(text)));
-    toast.success("Task Succesfully Added");
 
     fireEvent(page, events.TASKS.TASK_ADDED);
   }
@@ -173,7 +175,6 @@ export function useHome() {
     navigator.clipboard.writeText(
       formatTasksToReport(completedList, taskList, dateToday)
     );
-    toast.success("Copied");
 
     fireEvent(page, events.STATUS.COPIED);
   }
