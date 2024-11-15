@@ -1,8 +1,8 @@
-import React, { ReactNode, useEffect, useRef } from "react";
+import React, { ReactNode } from "react";
 import ReactModal from "react-modal";
 import styles from "../utils/styles";
 import colors from "../utils/colors";
-
+import { CloseIcon } from "../assets/svgs/closeIcon";
 interface ModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
@@ -14,31 +14,21 @@ const TaskTrackerModal: React.FC<ModalProps> = ({
   onRequestClose,
   children,
 }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  const handleOutsideClick = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      onRequestClose();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  });
-
   return (
     <ReactModal
-      className={`${colors.bg} ${styles.modalContainer}`}
+      className={`${styles.modalContainer} `}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       ariaHideApp={false}
       overlayClassName={colors.modalOverlay}
+      shouldCloseOnOverlayClick={false}
     >
-      <div ref={modalRef}>{children}</div>
+      <div className="flex justify-end">
+        <button onClick={onRequestClose} aria-label="Close Modal">
+          <CloseIcon />
+        </button>
+      </div>
+      <div className="modal-content">{children}</div>
     </ReactModal>
   );
 };

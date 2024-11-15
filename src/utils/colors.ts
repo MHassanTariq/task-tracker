@@ -26,7 +26,8 @@ const COLORS = {
     bodyBg: "bg-slate-400",
     taskCardBg: "bg-darkTeal/[0.7] backdrop-blur-xs",
     glassyDarkBg: "bg-darkTeal/[0.7] backdrop-blur-xs",
-    modalOverlay: "bg-white" 
+    modalOverlay: "bg-white ",
+    modalbg: "#252A40"    
   },
 };
 
