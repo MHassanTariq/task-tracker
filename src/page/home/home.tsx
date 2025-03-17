@@ -8,7 +8,7 @@ import styles from "../../utils/styles";
 import { useHome } from "./useHome";
 import PageScreen from "../../components/pageScreen";
 import DraggableTaskList from "../../components/draggableTaskList";
-
+import WhatsNewModal from "../../components/whatsNewModal";
 function Home() {
   const {
     taskList,
@@ -17,6 +17,7 @@ function Home() {
     headerButtons,
     highlightedDates,
     editingTaskId,
+    isModalOpen,
     onAdd,
     onDelete,
     onToggle,
@@ -26,6 +27,7 @@ function Home() {
     updateTaskListOrder,
     updateCompletedTaskListOrder,
     onMoveToBacklog,
+    setIsModalOpen,
   } = useHome();
 
   const taskOperations: TaskOperations = {
@@ -71,6 +73,8 @@ function Home() {
           updateTaskListOrder={updateCompletedTaskListOrder}
         />
       </div>
+
+      <WhatsNewModal />
     </PageScreen>
   );
 }

@@ -44,7 +44,15 @@ export function useHome() {
 
   const [editingTaskId, setEditingTaskId] = useState<string | undefined>();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const headerButtons: HeaderButtonProps = [
+    {
+      text: "What's New!",
+      variant: "no-border-bg",
+      onClick: () => setIsModalOpen(true),
+    },
+
     {
       variant: "no-border-bg",
       text: "Feedback",
@@ -208,6 +216,7 @@ export function useHome() {
     headerButtons,
     highlightedDates,
     editingTaskId,
+    isModalOpen,
     onDelete,
     onAdd,
     onToggle,
@@ -217,5 +226,6 @@ export function useHome() {
     updateTaskListOrder,
     updateCompletedTaskListOrder,
     onMoveToBacklog,
+    setIsModalOpen,
   };
 }
